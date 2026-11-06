@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi tarjeta con Vue</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <main id="app" class="contenedor" v-cloak>
+    <h1>Mi tarjeta de presentación - hecho por Jesús Francisco Barreras Samaniego</h1>
+    <p>Edita tus datos y observa la vista previa.</p>
+
+    <div class="columnas">
+      <section class="panel" aria-labelledby="editor">
+        <h2 id="editor">Personaliza tu tarjeta</h2>
+
+        <label for="nombre">Nombre</label>
+        <input id="nombre" v-model.trim="nombre" maxlength="60">
+
+        <label for="carrera">Carrera</label>
+        <input id="carrera" v-model.trim="carrera" maxlength="80">
+
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion" v-model.trim="descripcion" rows="4" maxlength="160"></textarea>
+        <p class="contador">{{ descripcion.length }} / 160</p>
+
+        <label for="semestre">Semestre</label>
+        <select id="semestre" v-model="semestre">
+          <option value="1° semestre">1° semestre</option>
+          <option value="2° semestre">2° semestre</option>
+          <option value="3° semestre">3° semestre</option>
+          <option value="4° semestre">4° semestre</option>
+          <option value="5° semestre">5° semestre</option>
+          <option value="6° semestre">6° semestre</option>
+          <option value="7° semestre">7° semestre</option>
+          <option value="8° semestre">8° semestre</option>
+        </select>
+
+        <label for="correo">Correo de contacto</label>
+        <input id="correo" type="email" v-model.trim="correo">
+
+        <label for="color">Color del borde</label>
+        <input id="color" type="color" v-model="color">
+
+        <label class="check">
+          <input type="checkbox" v-model="disponibleParaColaborar">
+          Disponible para colaborar
+        </label>
+
+        <button type="button" @click="alternarContacto" :aria-expanded="mostrarContacto" aria-controls="contacto">
+          {{ mostrarContacto ? 'Ocultar contacto' : 'Mostrar contacto' }}
+        </button>
+
+        <button type="button" class="secundario" @click="restablecer">
+          Restablecer datos
+        </button>
+
+        <button type="button" class="secundario tema-boton" @click="alternarTema">
+          {{ temaOscuro ? 'Tema claro' : 'Tema oscuro' }}
+        </button>
+      </section>
+
+      <section aria-labelledby="vista">
+        <h2 id="vista">Vista previa</h2>
+        <article class="tarjeta" :style="{ borderColor: color }">
+          <span class="etiqueta">Perfil estudiantil</span>
+          <h3>{{ nombre || 'Tu nombre' }}</h3>
+          <p class="carrera">{{ carrera || 'Tu carrera' }}</p>
+          <p class="semestre-precio">{{ semestre || 'Semestre' }}</p>
+          <p class="descripcion">{{ descripcion || 'Escribe una presentación.' }}</p>
+
+          <div id="contacto">
+            <p v-if="mostrarContacto">Contacto: {{ correo || 'Sin correo' }}</p>
+          </div>
+
+          <p v-if="disponibleParaColaborar" class="disponibilidad">Disponible para colaborar</p>
+          <p v-else class="disponibilidad">No disponible por el momento</p>
+        </article>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
